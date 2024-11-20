@@ -1,3 +1,5 @@
+import { Authorizer } from "./ui/screen/Authorizer";
+
 export const App = () => {
-  return <div>sss</div>;
+  return <Authorizer />;
 };
