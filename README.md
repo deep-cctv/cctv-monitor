@@ -1,28 +1,25 @@
-## Usage
+# cctv-monitor
+
+deep-cctv의 감시 클라이언트이다.
+
+## 개요
+
+cctv-client 에서 촬영한 실시간 영상을 감시한다.
+cctv-server 를 통해 스트리밍하며, 폭력이 감지된 경우 알림을 확인한다.
+
+## 실행
 
 ```bash
-$ npm install # or pnpm install or yarn install
+pnpm install
+pnpm run build
+pnpm run preview
 ```
 
-### Learn more on the [Solid Website](https://solidjs.com) and come chat with us on our [Discord](https://discord.com/invite/solidjs)
+## 개발
 
-## Available Scripts
-
-In the project directory, you can run:
-
-### `npm run dev`
-
-Runs the app in the development mode.<br>
-Open [http://localhost:5173](http://localhost:5173) to view it in the browser.
-
-### `npm run build`
-
-Builds the app for production to the `dist` folder.<br>
-It correctly bundles Solid in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.<br>
-Your app is ready to be deployed!
-
-## Deployment
-
-Learn more about deploying your application with the [documentations](https://vite.dev/guide/static-deploy.html)
+- Solid.js
+- pnpm
+- Typescript
+- Vite
+- Tailwind CSS
+- shadcn-solid
