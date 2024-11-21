@@ -5,6 +5,7 @@ import { token } from "../../service/signal/token";
 import {
   Toast,
   ToastContent,
+  ToastDescription,
   ToastProgress,
   ToastTitle,
 } from "../base/Toaster";
@@ -61,9 +62,12 @@ export const Monitor = () => {
       switch (data.type) {
         case "ALERT":
           toaster.show((props) => (
-            <Toast toastId={props.toastId}>
+            <Toast toastId={props.toastId} variant="destructive">
               <ToastContent>
-                <ToastTitle>Toast</ToastTitle>
+                <ToastTitle>경고</ToastTitle>
+                <ToastDescription>
+                  {data.name}에서 폭력상황이 발생했습니다.
+                </ToastDescription>
               </ToastContent>
               <ToastProgress />
             </Toast>
