@@ -1,5 +1,5 @@
 import { toaster } from "@kobalte/core";
-import { createSignal, For, onMount } from "solid-js";
+import { createSignal, For, onMount, Show } from "solid-js";
 
 import { token } from "../../service/signal/token";
 import {
@@ -90,9 +90,18 @@ export const Monitor = () => {
   });
   return (
     <div class="grid-cols-3 grid gap-5">
-      <For each={clients()}>
-        {(client) => <Video name={client.name} uri={client.uri} />}
-      </For>
+      <Show
+        fallback={
+          <p class="text-lg text-gray-500">
+            연결된 CCTV 클라이언트가 없습니다.
+          </p>
+        }
+        when={clients().length > 0}
+      >
+        <For each={clients()}>
+          {(client) => <Video name={client.name} uri={client.uri} />}
+        </For>
+      </Show>
     </div>
   );
 };
