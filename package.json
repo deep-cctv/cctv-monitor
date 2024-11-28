@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@kobalte/core": "^0.13.7",
+    "@solid-primitives/event-listener": "^2.3.3",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
     "ky": "^1.7.2",

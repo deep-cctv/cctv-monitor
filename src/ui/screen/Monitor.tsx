@@ -1,4 +1,5 @@
 import { toaster } from "@kobalte/core";
+import { createEventListener } from "@solid-primitives/event-listener";
 import { createSignal, For, onMount, Show } from "solid-js";
 
 import { token } from "../../service/signal/token";
@@ -44,6 +45,7 @@ const Video = (props: Client) => {
 
 export const Monitor = () => {
   const [clients, setClients] = createSignal<Client[]>([]);
+  const [showToast, setShowToast] = createSignal(false);
   onMount(() => {
     const ws = new WebSocket(
       `${import.meta.env.VITE_APP_API_URL}/monitor?token=${token()}`
@@ -61,6 +63,7 @@ export const Monitor = () => {
       const data = JSON.parse(event.data) as Message;
       switch (data.type) {
         case "ALERT":
+          if (!showToast()) return;
           toaster.show((props) => (
             <Toast toastId={props.toastId} variant="destructive">
               <ToastContent>
@@ -88,20 +91,30 @@ export const Monitor = () => {
       }
     };
   });
+
+  createEventListener(document, "keydown", () => {
+    setShowToast((p) => !p);
+  });
+
   return (
-    <div class="grid-cols-3 grid gap-5">
-      <Show
-        fallback={
-          <p class="text-lg text-gray-500">
-            연결된 CCTV 클라이언트가 없습니다.
-          </p>
-        }
-        when={clients().length > 0}
-      >
-        <For each={clients()}>
-          {(client) => <Video name={client.name} uri={client.uri} />}
-        </For>
+    <>
+      <div class="grid-cols-3 grid gap-5">
+        <Show
+          fallback={
+            <p class="text-lg text-gray-500">
+              연결된 CCTV 클라이언트가 없습니다.
+            </p>
+          }
+          when={clients().length > 0}
+        >
+          <For each={clients()}>
+            {(client) => <Video name={client.name} uri={client.uri} />}
+          </For>
+        </Show>
+      </div>
+      <Show when={showToast()}>
+        <div class="w-px h-px bg-black" />
       </Show>
-    </div>
+    </>
   );
 };
