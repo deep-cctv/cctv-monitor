@@ -92,8 +92,25 @@ export const Monitor = () => {
     };
   });
 
-  createEventListener(document, "keydown", () => {
-    setShowToast((p) => !p);
+  createEventListener(document, "keydown", (e) => {
+    switch (e.code) {
+      case "KeyQ":
+        toaster.show((props) => (
+          <Toast toastId={props.toastId} variant="destructive">
+            <ToastContent>
+              <ToastTitle>경고</ToastTitle>
+              <ToastDescription>
+                CAM1에서 폭력상황이 발생했습니다.
+              </ToastDescription>
+            </ToastContent>
+            <ToastProgress />
+          </Toast>
+        ));
+        return;
+      case "Space":
+        setShowToast((p) => !p);
+        return;
+    }
   });
 
   createEffect(() => {
