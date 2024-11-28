@@ -1,6 +1,6 @@
 import { toaster } from "@kobalte/core";
 import { createEventListener } from "@solid-primitives/event-listener";
-import { createSignal, For, onMount, Show } from "solid-js";
+import { createEffect, createSignal, For, onMount, Show } from "solid-js";
 
 import { token } from "../../service/signal/token";
 import {
@@ -96,25 +96,26 @@ export const Monitor = () => {
     setShowToast((p) => !p);
   });
 
+  createEffect(() => {
+    if (showToast()) {
+      document.title = "DeepCCTV - Monitor.";
+    } else {
+      document.title = "DeepCCTV - Monitor";
+    }
+  });
+
   return (
-    <>
+    <Show
+      fallback={
+        <p class="text-lg text-gray-500">연결된 CCTV 클라이언트가 없습니다.</p>
+      }
+      when={clients().length > 0}
+    >
       <div class="grid-cols-3 grid gap-5">
-        <Show
-          fallback={
-            <p class="text-lg text-gray-500">
-              연결된 CCTV 클라이언트가 없습니다.
-            </p>
-          }
-          when={clients().length > 0}
-        >
-          <For each={clients()}>
-            {(client) => <Video name={client.name} uri={client.uri} />}
-          </For>
-        </Show>
+        <For each={clients()}>
+          {(client) => <Video name={client.name} uri={client.uri} />}
+        </For>
       </div>
-      <Show when={showToast()}>
-        <div class="w-px h-px bg-black" />
-      </Show>
-    </>
+    </Show>
   );
 };
